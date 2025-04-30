@@ -1,0 +1,18 @@
+services:
+  compile_go:
+    image: golang:1.24-bullseye
+    container_name: compile_go
+    volumes:
+      - /home/chris/git/learn-docker/haproxy/server:/go
+    command: go run .
+  haproxy:
+    image: haproxy:latest
+    container_name: tmp_loadbalancer
+    ports:
+      - "4222:4222"
+      - "8081:8081"
+      - "8080:8080"
+    volumes:
+      - /home/chris/git/learn-docker/haproxy/conf/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - compile_go
