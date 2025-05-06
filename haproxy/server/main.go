@@ -12,6 +12,7 @@ func main() {
 	m := melody.New()
 
 	http.HandleFunc("/ws/01", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("query", r.URL.Query())
 		err := m.HandleRequest(w, r)
 		if err != nil {
 			log.Println(err)
